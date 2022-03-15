@@ -3,67 +3,75 @@ import 'package:google_fonts/google_fonts.dart';
 
 class MainTheme {
   static final ThemeData theme = ThemeData(
-    primaryColor: Colors.primaryDefault,
-    primaryColorDark: Colors.primaryDark,
-    primaryColorLight: Colors.primaryLight,
-    scaffoldBackgroundColor: Colors.light,
+    primaryColor: _ColorsTheme.primaryDefault,
+    primaryColorDark: _ColorsTheme.primaryDark,
+    primaryColorLight: _ColorsTheme.primaryLight,
+    scaffoldBackgroundColor: _ColorsTheme.light,
+    errorColor: _ColorsTheme.danger,
+    canvasColor: _ColorsTheme.darkRed,
     iconTheme: const IconThemeData(
-      color: Colors.darkYellow,
+      color: _ColorsTheme.darkYellow,
       size: 25.0,
     ),
-    textTheme: FontTheme.theme,
-    appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.primaryDefault,
-    ),
+    textTheme: _FontTheme.theme,
+    appBarTheme: _AppBarTheme.theme,
     bottomAppBarTheme: const BottomAppBarTheme(
-      color: Colors.primaryDefault,
+      color: _ColorsTheme.primaryDefault,
     ),
   );
 }
 
-class FontTheme {
+class _FontTheme {
   static final TextTheme theme = TextTheme(
     headline1: GoogleFonts.sourceSansPro(
-      color: Colors.dark,
+      color: _ColorsTheme.dark,
       fontSize: 24,
       fontWeight: FontWeight.normal,
     ),
     headline2: GoogleFonts.sourceSansPro(
-      color: Colors.dark,
+      color: _ColorsTheme.dark,
       fontSize: 20,
       fontWeight: FontWeight.normal,
     ),
     headline3: GoogleFonts.sourceSansPro(
-      color: Colors.dark,
+      color: _ColorsTheme.dark,
       fontSize: 18,
       fontWeight: FontWeight.normal,
     ),
     headline4: GoogleFonts.sourceSansPro(
       fontSize: 16,
-      color: Colors.dark,
+      color: _ColorsTheme.dark,
       fontWeight: FontWeight.normal,
     ),
     headline5: GoogleFonts.sourceSansPro(
       fontSize: 14,
-      color: Colors.dark,
+      color: _ColorsTheme.dark,
       fontWeight: FontWeight.normal,
     ),
     headline6: GoogleFonts.sourceSansPro(
       fontSize: 12,
-      color: Colors.dark,
+      color: _ColorsTheme.dark,
       fontWeight: FontWeight.normal,
     ),
   );
 }
 
-class Colors {
+class _ColorsTheme {
   static const primaryDefault = Color(0xFF25484f);
   static const primaryDark = Color(0xFF1f2731);
   static const primaryLight = Color(0xFF34796a);
 
   static const dark = Color(0xFF010102);
-  static const light = Color(0xFFecf1c1);
+  static const light = Color.fromARGB(255, 255, 255, 255);
 
   static const darkRed = Color(0xFF381010);
   static const darkYellow = Color(0xFFad7d37);
+  static const danger = Color(0xFFB71C1C);
+}
+
+class _AppBarTheme {
+  static final theme = AppBarTheme(
+      backgroundColor: _ColorsTheme.primaryDefault,
+      titleTextStyle:
+          _FontTheme.theme.headline2?.apply(color: _ColorsTheme.light));
 }

@@ -10,11 +10,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return MaterialApp(
       title: 'Wiki Star Wars',
       theme: MainTheme.theme,
-      home: const Scaffold(
-        body: Center(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'wiki star wars',
+            style: theme.appBarTheme.titleTextStyle,
+          ),
+          backgroundColor: theme.appBarTheme.backgroundColor,
+        ),
+        body: const Center(
           child: Text('home'),
         ),
       ),
