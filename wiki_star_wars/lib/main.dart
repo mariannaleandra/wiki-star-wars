@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:wiki_star_wars/theme.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const WikiStarWarsApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class WikiStarWarsApp extends StatelessWidget {
+  const WikiStarWarsApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
