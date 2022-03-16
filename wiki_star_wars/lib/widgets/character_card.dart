@@ -12,12 +12,9 @@ class CharacterCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var screenSize = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        width: screenSize.width * 0.7,
-        height: 100,
         decoration: BoxDecoration(
           color: bgColor ?? theme.primaryColor,
           borderRadius: BorderRadius.circular(
@@ -32,13 +29,26 @@ class CharacterCard extends StatelessWidget {
             )
           ],
         ),
-        child: Column(
+        child: Wrap(
+          alignment: WrapAlignment.center,
+          spacing: 10,
+          runAlignment: WrapAlignment.center,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          direction: Axis.vertical,
           children: [
+            CircleAvatar(
+              backgroundColor: bgColor,
+              backgroundImage: const AssetImage('assets/images/helmet.png'),
+              radius: 40,
+            ),
             Text(
               character.name,
-              style: theme.textTheme.headline3?.apply(
+              style: theme.textTheme.headline2?.apply(
                 color: theme.backgroundColor,
+                fontWeightDelta: 7,
               ),
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
             )
           ],
         ),

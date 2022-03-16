@@ -15,10 +15,27 @@ class CharactersLane extends StatelessWidget {
       required this.pagingController})
       : super(key: key);
 
+  //random background colors for card
+  Color _bgColor(int index, ThemeData theme) {
+    if (index % 4 == 0) {
+      return theme.primaryColorLight;
+    } else if (index % 3 == 0) {
+      return theme.primaryColorDark;
+    } else if (index % 2 == 0) {
+      return theme.primaryColor;
+    }
+    return theme.primaryColor;
+  }
+
   @override
   Widget build(final BuildContext context) {
     var theme = Theme.of(context);
-    return PagedListView<int, Character>(
+    return PagedGridView<int, Character>(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 10.0,
+        crossAxisSpacing: 10.0,
+      ),
       pagingController: pagingController,
       builderDelegate: PagedChildBuilderDelegate<Character>(
         firstPageProgressIndicatorBuilder: (final context) =>
@@ -32,14 +49,10 @@ class CharactersLane extends StatelessWidget {
           ),
         ),
         itemBuilder: (final context, final character, final index) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: CharacterCard(
-              character: character,
-              onPressed: () => onCharacterPress(character),
-              bgColor:
-                  index % 2 == 0 ? theme.primaryColor : theme.primaryColorDark,
-            ),
+          return CharacterCard(
+            character: character,
+            onPressed: () => onCharacterPress(character),
+            bgColor: _bgColor(index + 1, theme),
           );
         },
         noMoreItemsIndicatorBuilder: (final context) => Center(

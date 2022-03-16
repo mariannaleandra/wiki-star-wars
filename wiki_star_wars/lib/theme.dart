@@ -7,8 +7,7 @@ class MainTheme {
     primaryColorDark: _ColorsTheme.primaryDark,
     primaryColorLight: _ColorsTheme.primaryLight,
     shadowColor: _ColorsTheme.primaryDark,
-    errorColor: _ColorsTheme.danger,
-    canvasColor: _ColorsTheme.darkRed,
+    errorColor: _ColorsTheme.darkRed,
     backgroundColor: _ColorsTheme.light,
     cardColor: _ColorsTheme.primaryDefault,
     iconTheme: const IconThemeData(
@@ -68,7 +67,6 @@ class _ColorsTheme {
 
   static const darkRed = Color(0xFF381010);
   static const darkYellow = Color(0xFFad7d37);
-  static const danger = Color(0xFFB71C1C);
 }
 
 class _AppBarTheme {
