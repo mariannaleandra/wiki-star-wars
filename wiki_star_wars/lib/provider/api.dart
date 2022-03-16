@@ -7,8 +7,8 @@ import 'package:wiki_star_wars/constants/api_constants.dart';
 class ApiBase {
   late Dio client;
 
-  ApiBase({String path = ""}) {
-    final url = ApiConstants.BASE_URL + path;
+  ApiBase({String? path}) {
+    final url = ApiConstants.BASE_URL + (path ?? '');
     final opts = BaseOptions(
       baseUrl: url,
       connectTimeout: 15000,
@@ -59,7 +59,7 @@ class ApiBase {
           debugPrint('[ERROR] :: onError :: $err');
         }
       }
-      // prossegue com o erro
+      // next
       return handler.next(e);
     }));
   }
