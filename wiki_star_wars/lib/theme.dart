@@ -6,9 +6,11 @@ class MainTheme {
     primaryColor: _ColorsTheme.primaryDefault,
     primaryColorDark: _ColorsTheme.primaryDark,
     primaryColorLight: _ColorsTheme.primaryLight,
-    scaffoldBackgroundColor: _ColorsTheme.light,
+    shadowColor: _ColorsTheme.primaryDark,
     errorColor: _ColorsTheme.danger,
     canvasColor: _ColorsTheme.darkRed,
+    backgroundColor: _ColorsTheme.light,
+    cardColor: _ColorsTheme.primaryDefault,
     iconTheme: const IconThemeData(
       color: _ColorsTheme.darkYellow,
       size: 25.0,

@@ -54,4 +54,8 @@ class HomeController extends GetxController {
           pagingController.appendPage(newCharacters, pageKey + 1);
         }
       };
+
+  void onPressCharacter(Character character) {
+    //TODO
+  }
 }
