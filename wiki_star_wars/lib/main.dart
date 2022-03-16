@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:wiki_star_wars/routes/pages.dart';
+import 'package:wiki_star_wars/routes/routes.dart';
 import 'package:wiki_star_wars/theme.dart';
 
 void main() {
@@ -10,22 +13,11 @@ class WikiStarWarsApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Wiki Star Wars',
       theme: MainTheme.theme,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'wiki star wars',
-            style: theme.appBarTheme.titleTextStyle,
-          ),
-          backgroundColor: theme.appBarTheme.backgroundColor,
-        ),
-        body: const Center(
-          child: Text('home'),
-        ),
-      ),
+      initialRoute: Routes.home,
+      getPages: AppPages.pages,
     );
   }
 }
