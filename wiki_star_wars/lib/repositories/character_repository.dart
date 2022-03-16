@@ -14,7 +14,6 @@ class CharacterRepository extends ApiBase {
       final data = response.data;
 
       if (response.statusCode == 200 && data != null) {
-        print('[debug] $data');
         return Page<Character>.fromJson(
             data, (final json) => Character.fromJson(json));
       }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:wiki_star_wars/modules/Home/home_controller.dart';
 import 'package:wiki_star_wars/widgets/characters_lane.dart';
 import 'package:wiki_star_wars/widgets/loading.dart';
