@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:wiki_star_wars/models/character.dart';
@@ -57,5 +58,6 @@ class HomeController extends GetxController {
 
   void onPressCharacter(Character character) {
     //TODO
+    debugPrint('[DEBUG] :: on pressed ${character.name}');
   }
 }

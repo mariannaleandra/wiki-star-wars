@@ -1,6 +1,9 @@
 class Character {
   String url = '';
   String name = '';
+  String height = '';
+  String gender = '';
+  String mass = '';
 
   Character.empty();
 
@@ -12,6 +15,15 @@ class Character {
           break;
         case 'url':
           url = value;
+          break;
+        case 'height':
+          height = value;
+          break;
+        case 'gender':
+          gender = value;
+          break;
+        case 'mass':
+          mass = value;
           break;
         default:
           break;

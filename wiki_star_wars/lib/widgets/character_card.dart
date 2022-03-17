@@ -15,6 +15,7 @@ class CharacterCard extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
+        padding: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
           color: bgColor ?? theme.primaryColor,
           borderRadius: BorderRadius.circular(
@@ -29,18 +30,16 @@ class CharacterCard extends StatelessWidget {
             )
           ],
         ),
-        child: Wrap(
-          alignment: WrapAlignment.center,
-          spacing: 10,
-          runAlignment: WrapAlignment.center,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          direction: Axis.vertical,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(
               backgroundColor: bgColor,
               backgroundImage: const AssetImage('assets/images/helmet.png'),
               radius: 40,
             ),
+            const SizedBox(height: 10),
             Text(
               character.name,
               style: theme.textTheme.headline2?.apply(
@@ -49,10 +48,45 @@ class CharacterCard extends StatelessWidget {
               ),
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
-            )
+            ),
+            const SizedBox(height: 10),
+            _Text(label: 'Height', description: character.height),
+            _Text(label: 'Mass', description: character.mass),
+            _Text(label: 'Gender', description: character.gender),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _Text extends StatelessWidget {
+  final String label;
+  final String description;
+  const _Text({Key? key, required this.label, required this.description})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          label + ': ',
+          style: theme.textTheme.headline4
+              ?.apply(color: theme.backgroundColor, fontWeightDelta: 7),
+          overflow: TextOverflow.ellipsis,
+        ),
+        Text(
+          description,
+          style: theme.textTheme.headline4?.apply(
+            color: theme.backgroundColor,
+          ),
+          overflow: TextOverflow.ellipsis,
+        )
+      ],
     );
   }
 }
