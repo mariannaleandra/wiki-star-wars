@@ -71,7 +71,10 @@ class _ColorsTheme {
 
 class _AppBarTheme {
   static final theme = AppBarTheme(
-      backgroundColor: _ColorsTheme.primaryDefault,
-      titleTextStyle:
-          _FontTheme.theme.headline2?.apply(color: _ColorsTheme.light));
+    backgroundColor: _ColorsTheme.primaryDefault,
+    titleTextStyle: _FontTheme.theme.headline1?.apply(
+      color: _ColorsTheme.light,
+      fontWeightDelta: 7,
+    ),
+  );
 }

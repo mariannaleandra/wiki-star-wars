@@ -34,10 +34,17 @@ class CharacterCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircleAvatar(
-              backgroundColor: bgColor,
-              backgroundImage: const AssetImage('assets/images/helmet.png'),
-              radius: 40,
+            Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(40),
+                border: Border.all(color: theme.backgroundColor, width: 2.0),
+              ),
+              child: CircleAvatar(
+                backgroundColor: bgColor,
+                backgroundImage: const AssetImage('assets/images/helmet.png'),
+              ),
             ),
             const SizedBox(height: 10),
             Text(

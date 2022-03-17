@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:wiki_star_wars/modules/Home/home_controller.dart';
 import 'package:wiki_star_wars/widgets/characters_lane.dart';
 import 'package:wiki_star_wars/widgets/loading.dart';
+import 'package:wiki_star_wars/widgets/search_input.dart';
 
 class HomePage extends GetView<HomeController> {
   const HomePage({Key? key}) : super(key: key);
@@ -26,15 +27,17 @@ class HomePage extends GetView<HomeController> {
           margin: const EdgeInsets.all(10),
           child: Column(
             children: [
+              SearchInput(
+                onSearch: controller.onSearch,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
               Expanded(
-                child: Obx(
-                  () => controller.inAsyncCall
-                      ? const LoadingWidget()
-                      : CharactersLane(
-                          onCharacterPress: (character) =>
-                              controller.onPressCharacter(character),
-                          pagingController: controller.pagingCharacters,
-                        ),
+                child: CharactersLane(
+                  onCharacterPress: (character) =>
+                      controller.onPressCharacter(character),
+                  pagingController: controller.pagingCharacters,
                 ),
               ),
             ],

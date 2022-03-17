@@ -10,42 +10,26 @@ class HomeController extends GetxController {
 
   final pagingCharacters = PagingController<int, Character>(firstPageKey: 1);
 
-  final RxBool _inAsyncCall = false.obs;
-  bool get inAsyncCall => _inAsyncCall.value;
-
   final int pageSize = 10;
+
+  String _searchText = '';
 
   @override
   void onInit() {
     super.onInit();
     pagingCharacters.appendLastPage([]);
     pagingCharacters
-        .addPageRequestListener(onPageCharactersFetch(pagingCharacters));
-    loadCharacters();
+        .addPageRequestListener(fetchPageCharacters(pagingCharacters));
+    pagingCharacters.refresh();
   }
 
-  Future<void> loadCharacters() async {
-    _inAsyncCall.value = true;
-    await _loadPageCharacters(pagingCharacters);
-    _inAsyncCall.value = false;
-  }
-
-  Future<void> _loadPageCharacters(
-      final PagingController<int, Character> pagingController) async {
-    final newItensUsers = await _characterRepository.listCharacters();
-
-    final characters = newItensUsers.results;
-
-    pagingController
-      ..itemList = characters
-      ..nextPageKey = 2;
-  }
-
-  Future<void> Function(int) onPageCharactersFetch(
+  Future<void> Function(int) fetchPageCharacters(
           final PagingController<int, Character> pagingController) =>
       (final int pageKey) async {
-        final newPage =
-            await _characterRepository.listCharacters(page: pageKey);
+        final newPage = await _characterRepository.listCharacters(
+          page: pageKey,
+          search: _searchText,
+        );
 
         final newCharacters = newPage.results;
 
@@ -59,5 +43,16 @@ class HomeController extends GetxController {
   void onPressCharacter(Character character) {
     //TODO
     debugPrint('[DEBUG] :: on pressed ${character.name}');
+  }
+
+  void onSearch(String value) {
+    _searchText = value;
+    pagingCharacters.refresh();
+  }
+
+  @override
+  void onClose() {
+    pagingCharacters.dispose();
+    super.onClose();
   }
 }

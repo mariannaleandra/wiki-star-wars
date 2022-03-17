@@ -56,12 +56,6 @@ class CharactersLane extends StatelessWidget {
             bgColor: _bgColor(index + 1, theme),
           );
         },
-        noMoreItemsIndicatorBuilder: (final context) => Center(
-          child: Text(
-            'all done :)',
-            style: theme.textTheme.headline2,
-          ),
-        ),
       ),
     );
   }
