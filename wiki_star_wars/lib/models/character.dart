@@ -30,4 +30,15 @@ class Character {
       }
     });
   }
+
+  Map<String, String> toJson() {
+    var json = {
+      'name': name,
+      'height': height,
+      'url': url,
+      'gender': gender,
+      'mass': mass
+    };
+    return json;
+  }
 }

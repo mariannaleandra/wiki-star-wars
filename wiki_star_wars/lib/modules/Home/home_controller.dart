@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:wiki_star_wars/models/character.dart';
 import 'package:wiki_star_wars/repositories/character_repository.dart';
+import 'package:wiki_star_wars/utils/internet_utils.dart';
+import 'package:wiki_star_wars/utils/storage_utils.dart';
 
 class HomeController extends GetxController {
   final CharacterRepository _characterRepository;
@@ -17,16 +21,25 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    pagingCharacters.appendLastPage([]);
     pagingCharacters
-        .addPageRequestListener(fetchPageCharacters(pagingCharacters));
-    pagingCharacters.refresh();
+        .addPageRequestListener((pageKey) => _fetchPageCharacters(pageKey));
   }
 
-  Future<void> Function(int) fetchPageCharacters(
-          final PagingController<int, Character> pagingController) =>
-      (final int pageKey) async {
-        final newPage = await _characterRepository.listCharacters(
+  Future<List<Character>> _readData() async {
+    final content = await StorageUtils.readcontent();
+    Iterable l = jsonDecode(content);
+    final list =
+        List<Character>.from(l.map((model) => Character.fromJson(model)));
+    return list;
+  }
+
+  Future<void> _fetchPageCharacters(int pageKey) async {
+    bool firstLoad = pageKey == 1;
+    try {
+      final hasConnection = await InternetUtils.checkConnection();
+
+      if (hasConnection) {
+        var newPage = await _characterRepository.listCharacters(
           page: pageKey,
           search: _searchText,
         );
@@ -34,11 +47,25 @@ class HomeController extends GetxController {
         final newCharacters = newPage.results;
 
         if (newCharacters.length < pageSize) {
-          pagingController.appendLastPage(newCharacters);
+          pagingCharacters.appendLastPage(newCharacters);
         } else {
-          pagingController.appendPage(newCharacters, pageKey + 1);
+          pagingCharacters.appendPage(newCharacters, pageKey + 1);
         }
-      };
+
+        if (firstLoad) {
+          //reload file data on first reload
+          StorageUtils.writeContent(content: jsonEncode(newCharacters));
+        }
+      } else if (firstLoad) {
+        pagingCharacters
+          ..itemList = await _readData()
+          ..nextPageKey = 2;
+        throw Exception('no internet connection');
+      }
+    } on Exception catch (error) {
+      pagingCharacters.error = error;
+    }
+  }
 
   void onPressCharacter(Character character) {
     //TODO

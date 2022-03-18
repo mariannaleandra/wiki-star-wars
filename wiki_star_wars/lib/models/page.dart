@@ -4,8 +4,6 @@ class Page<T> {
   String? previous;
   List<T> results = [];
 
-  Page();
-
   Page.empty();
 
   Page.fromJson(final Map<String, dynamic> json,
