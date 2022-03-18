@@ -61,6 +61,8 @@ class HomeController extends GetxController {
           ..itemList = await _readData()
           ..nextPageKey = 2;
         throw Exception('no internet connection');
+      } else {
+        throw Exception('no internet connection');
       }
     } on Exception catch (error) {
       pagingCharacters.error = error;
