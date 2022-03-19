@@ -36,8 +36,11 @@ class HomePage extends GetView<HomeController> {
             ),
             Expanded(
               child: CharactersLane(
-                onCharacterPress: (character, color) =>
-                    _openCharacter(context, character, theme, color),
+                onCharacterPress: (character, color) {
+                  controller.onPressCharacter(character);
+                  _openCharacter(
+                      context, controller.selectedCharacter, theme, color);
+                },
                 pagingController: controller.pagingCharacters,
               ),
             ),
@@ -60,11 +63,13 @@ class HomePage extends GetView<HomeController> {
         ),
       ),
       backgroundColor: bgColor,
-      builder: (context) => CharacterView(
-        character: character,
-        loadingInfo: controller.isLoading,
-        loadingMsg: controller.loadingMsg,
-        bgColor: bgColor,
+      builder: (context) => Obx(
+        () => CharacterView(
+          character: controller.selectedCharacter,
+          loadingData: controller.isLoading,
+          loadingMsg: controller.loadingMsg,
+          bgColor: bgColor,
+        ),
       ),
     );
   }

@@ -12,6 +12,18 @@ class Character {
 
   Character.empty();
 
+  Character({
+    required this.name,
+    required this.height,
+    required this.gender,
+    required this.mass,
+    required this.hairColor,
+    required this.skinColor,
+    required this.eyeColor,
+    required this.birthYear,
+    required this.homeworld,
+  });
+
   Character.fromJson(final Map<String, dynamic> json) {
     json.forEach((final key, final value) {
       switch (key) {
@@ -62,4 +74,15 @@ class Character {
     };
     return json;
   }
+
+  Character copyWith({String? homeworld}) => Character(
+      name: name,
+      height: height,
+      gender: gender,
+      mass: mass,
+      hairColor: hairColor,
+      skinColor: skinColor,
+      eyeColor: eyeColor,
+      birthYear: birthYear,
+      homeworld: homeworld ?? this.homeworld);
 }

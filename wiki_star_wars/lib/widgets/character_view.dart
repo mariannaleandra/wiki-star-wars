@@ -5,13 +5,13 @@ import 'package:wiki_star_wars/widgets/profile_avatar.dart';
 
 class CharacterView extends StatelessWidget {
   final Character character;
-  final bool loadingInfo;
-  final String? loadingMsg;
+  final bool loadingData;
+  final String loadingMsg;
   final Color? bgColor;
   const CharacterView(
       {Key? key,
       required this.character,
-      required this.loadingInfo,
+      required this.loadingData,
       this.loadingMsg = '',
       this.bgColor})
       : super(key: key);
@@ -50,6 +50,14 @@ class CharacterView extends StatelessWidget {
               child: ListView(
                 scrollDirection: Axis.vertical,
                 children: [
+                  Field(
+                    text: character.homeworld,
+                    label: 'homeworld',
+                    icon: Icons.home,
+                    loadingData: loadingData,
+                    loadingMsg: loadingMsg,
+                    color: bgColor,
+                  ),
                   ..._buildFields(),
                 ],
               ),

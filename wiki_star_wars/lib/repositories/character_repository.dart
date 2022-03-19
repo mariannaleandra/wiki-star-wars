@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:wiki_star_wars/constants/api_constants.dart';
 import 'package:wiki_star_wars/models/character.dart';
 import 'package:wiki_star_wars/models/page.dart';
 import 'package:wiki_star_wars/provider/api.dart';
@@ -15,7 +16,8 @@ class CharacterRepository extends ApiBase {
     }
 
     try {
-      final response = await client.get('people', queryParameters: params);
+      final response = await client.get('${ApiConstants.BASE_URL}/people',
+          queryParameters: params);
       final data = response.data;
 
       if (response.statusCode == 200 && data != null) {
@@ -27,5 +29,19 @@ class CharacterRepository extends ApiBase {
     }
 
     return Page.empty();
+  }
+
+  Future<String> getHomeworldName({required String url}) async {
+    try {
+      final response = await client.get(url);
+      final data = response.data;
+
+      if (response.statusCode == 200 && data != null) {
+        return data['name'];
+      }
+    } on Exception catch (e) {
+      debugPrint('[ERROR] :: error trying to get planet :: $e');
+    }
+    return '';
   }
 }

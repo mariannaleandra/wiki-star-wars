@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:wiki_star_wars/widgets/loading.dart';
 
 class Field extends StatelessWidget {
   final String label;
   final String text;
   final IconData? icon;
   final Color? color;
-  const Field(
-      {Key? key,
-      required this.text,
-      required this.label,
-      this.icon,
-      this.color})
-      : super(key: key);
+  final bool loadingData;
+  final String loadingMsg;
+  const Field({
+    Key? key,
+    required this.text,
+    required this.label,
+    this.icon,
+    this.color,
+    this.loadingData = false,
+    this.loadingMsg = '',
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +36,15 @@ class Field extends StatelessWidget {
         5.0,
       ),
       child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-        Icon(
-          icon,
-          color: color ?? theme.primaryColor,
-          size: theme.iconTheme.size,
-        ),
+        loadingData
+            ? LoadingWidget(
+                size: theme.iconTheme.size!,
+              )
+            : Icon(
+                icon,
+                color: color ?? theme.primaryColor,
+                size: theme.iconTheme.size,
+              ),
         const SizedBox(
           width: 10,
         ),
@@ -51,7 +60,7 @@ class Field extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
             Text(
-              text,
+              loadingData ? loadingMsg : text,
               style: theme.textTheme.headline2?.apply(
                 color: color ?? theme.primaryColor,
               ),

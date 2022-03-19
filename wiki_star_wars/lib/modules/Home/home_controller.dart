@@ -14,6 +14,9 @@ class HomeController extends GetxController {
 
   final pagingCharacters = PagingController<int, Character>(firstPageKey: 1);
 
+  final _selectedCharacter = Character.empty().obs;
+  Character get selectedCharacter => _selectedCharacter.value;
+
   final int pageSize = 10;
 
   String _searchText = '';
@@ -75,11 +78,14 @@ class HomeController extends GetxController {
     // _asyncCallMsg.value = '';
   }
 
-  void onPressCharacter(Character character) {
-    //TODO
-    debugPrint('[DEBUG] :: on pressed ${character.name}');
-    //load planet
-    //load specie
+  Future<void> onPressCharacter(Character character) async {
+    _selectedCharacter.value = character;
+    _asyncCallMsg.value = 'Loading homeworld...';
+    final homeworld =
+        await _characterRepository.getHomeworldName(url: character.homeworld);
+    _selectedCharacter.value = selectedCharacter.copyWith(homeworld: homeworld);
+    _asyncCallMsg.value = '';
+    //TODO load species
   }
 
   void onSearch(String value) {

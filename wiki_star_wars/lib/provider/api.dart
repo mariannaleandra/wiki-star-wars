@@ -2,15 +2,12 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:wiki_star_wars/constants/api_constants.dart';
 
 class ApiBase {
   late Dio client;
 
-  ApiBase({String? path}) {
-    final url = ApiConstants.BASE_URL + (path ?? '');
+  ApiBase() {
     final opts = BaseOptions(
-      baseUrl: url,
       connectTimeout: 15000,
       contentType: 'application/json',
     );
