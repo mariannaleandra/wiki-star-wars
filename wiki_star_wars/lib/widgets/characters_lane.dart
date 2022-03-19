@@ -9,7 +9,7 @@ class CharactersLane extends StatelessWidget {
   final void Function(Character character, Color color) onCharacterPress;
   final PagingController<int, Character> pagingController;
   final List<String> favorites;
-  final Function(String value) onToggleFavorite;
+  final Function(Character character) onToggleFavorite;
 
   const CharactersLane(
       {final Key? key,
@@ -61,7 +61,7 @@ class CharactersLane extends StatelessWidget {
             onPressed: () => onCharacterPress(character, bgColor),
             bgColor: bgColor,
             isFavorite: favorites.contains(character.url),
-            onToggleFavorite: () => onToggleFavorite(character.url),
+            onToggleFavorite: () => onToggleFavorite(character),
           );
         },
       ),

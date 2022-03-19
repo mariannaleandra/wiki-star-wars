@@ -44,7 +44,11 @@ class HomePage extends GetView<HomeController> {
                   },
                   pagingController: controller.pagingCharacters,
                   favorites: controller.favorites,
-                  onToggleFavorite: controller.toggleFavorite,
+                  onToggleFavorite: (character) => controller.toggleFavorite(
+                    character,
+                    addFavorite: (value) =>
+                        _showSnackbar(value, context, theme),
+                  ),
                 ),
               ),
             ),
@@ -73,6 +77,30 @@ class HomePage extends GetView<HomeController> {
           loadingData: controller.isLoading,
           loadingMsg: controller.loadingMsg,
           bgColor: bgColor,
+        ),
+      ),
+    );
+  }
+
+  void _showSnackbar(String value, BuildContext context, ThemeData theme) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: theme.iconTheme.color,
+        duration: const Duration(seconds: 3),
+        padding: const EdgeInsets.all(10.0),
+        margin: const EdgeInsets.all(10.0),
+        behavior: SnackBarBehavior.floating,
+        shape: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        content: Text(
+          value,
+          style: theme.textTheme.headline2?.apply(
+            color: theme.backgroundColor,
+            fontWeightDelta: 7,
+          ),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
         ),
       ),
     );

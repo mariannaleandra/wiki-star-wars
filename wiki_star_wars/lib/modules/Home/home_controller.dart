@@ -101,11 +101,16 @@ class HomeController extends GetxController {
     pagingCharacters.refresh();
   }
 
-  Future<void> toggleFavorite(String favUrl) async {
+  Future<void> toggleFavorite(Character character,
+      {Function(String value)? addFavorite}) async {
+    final favUrl = character.url;
     if (favorites.contains(favUrl)) {
       _removeFavorites(favUrl);
     } else {
-      _addToFavorites(favUrl);
+      _addToFavorites(
+        favUrl,
+        addFavorite: addFavorite,
+      );
     }
     await _writeData(
       StorageConstants.FAVORITES_STORAGE,
@@ -113,10 +118,10 @@ class HomeController extends GetxController {
     );
   }
 
-  void _addToFavorites(String favUrl) {
+  void _addToFavorites(String favUrl, {Function(String value)? addFavorite}) {
     _favorites.value.favorites = [...favorites, favUrl];
     _favorites.refresh();
-    _favorite(favUrl);
+    _favorite(favUrl).then((value) => addFavorite?.call(value));
   }
 
   void _removeFavorites(String favUrl) {
@@ -186,7 +191,6 @@ class HomeController extends GetxController {
   Future<void> _writeData(String storage, String content) async {
     try {
       await StorageUtils.writeContent(content: content, storage: storage);
-      debugPrint('[LOG] :: succesfully write content to $storage !!!');
     } on Exception catch (e) {
       debugPrint('[ERROR] :: error trying to write data :: $e');
     }

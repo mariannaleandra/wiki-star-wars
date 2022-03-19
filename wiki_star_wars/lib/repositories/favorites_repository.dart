@@ -25,13 +25,11 @@ class FavoriteRepository extends ApiBase {
       if (response.statusCode == 201 && data != null) {
         lastFailed = false;
         return data['message'];
-      } else if (data != null) {
-        lastFailed = true;
-        return data['error_message'];
       }
-    } on Exception catch (e) {
-      debugPrint('[ERROR] :: error trying to add to favorite :: $e');
+    } on DioError catch (e) {
+      debugPrint('[ERROR] :: error trying to add to favorite :: ${e.response}');
       lastFailed = true;
+      return e.response?.data['error_message'];
     }
     return 'error';
   }
