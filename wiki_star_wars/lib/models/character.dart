@@ -70,7 +70,7 @@ class Character {
     });
   }
 
-  Map<String, String> toJson() {
+  Map<String, dynamic> toJson() {
     var json = {
       'name': name,
       'height': height,
@@ -81,7 +81,7 @@ class Character {
       'eye_color': eyeColor,
       'birth_year': birthYear,
       'homeworld': homeworld,
-      'species': species.toString(),
+      'species': species,
       'url': url,
     };
     return json;

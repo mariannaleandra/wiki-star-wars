@@ -1,7 +1,3 @@
-import 'dart:convert';
-
-import 'package:wiki_star_wars/utils/storage_utils.dart';
-
 class Favorites {
   List<String> favorites = [];
   List<String> failed = [];
@@ -25,8 +21,8 @@ class Favorites {
     });
   }
 
-  Map<String, String> toJson() => {
-        'favorites': favorites.toString(),
-        'failed': failed.toString(),
+  Map<String, dynamic> toJson() => {
+        'favorites': favorites,
+        'failed': failed,
       };
 }

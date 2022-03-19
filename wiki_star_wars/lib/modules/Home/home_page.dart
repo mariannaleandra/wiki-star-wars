@@ -35,13 +35,17 @@ class HomePage extends GetView<HomeController> {
               height: 10,
             ),
             Expanded(
-              child: CharactersLane(
-                onCharacterPress: (character, color) {
-                  controller.onPressCharacter(character);
-                  _openCharacter(
-                      context, controller.selectedCharacter, theme, color);
-                },
-                pagingController: controller.pagingCharacters,
+              child: Obx(
+                () => CharactersLane(
+                  onCharacterPress: (character, color) {
+                    controller.onPressCharacter(character);
+                    _openCharacter(
+                        context, controller.selectedCharacter, theme, color);
+                  },
+                  pagingController: controller.pagingCharacters,
+                  favorites: controller.favorites,
+                  onToggleFavorite: controller.toggleFavorite,
+                ),
               ),
             ),
           ],

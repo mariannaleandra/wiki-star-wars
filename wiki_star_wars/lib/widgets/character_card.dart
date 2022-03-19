@@ -7,14 +7,20 @@ class CharacterCard extends StatelessWidget {
   final Character character;
   final VoidCallback? onPressed;
   final Color? bgColor;
-  const CharacterCard(
-      {Key? key, required this.character, this.onPressed, this.bgColor})
-      : super(key: key);
+  final bool isFavorite;
+  final VoidCallback onToggleFavorite;
+  const CharacterCard({
+    Key? key,
+    required this.character,
+    this.onPressed,
+    this.bgColor,
+    required this.isFavorite,
+    required this.onToggleFavorite,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: onPressed,
       child: Container(
@@ -43,7 +49,12 @@ class CharacterCard extends StatelessWidget {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: [FavoriteButton(isSelected: false, onSelect: () {})],
+              children: [
+                FavoriteButton(
+                  isSelected: isFavorite,
+                  onSelect: onToggleFavorite,
+                )
+              ],
             ),
             ProfileAvatar(
               name: character.name,

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:wiki_star_wars/constants/storage_constants.dart';
 import 'package:wiki_star_wars/models/character.dart';
 import 'package:wiki_star_wars/models/favorites.dart';
 import 'package:wiki_star_wars/repositories/character_repository.dart';
@@ -20,7 +21,7 @@ class HomeController extends GetxController {
   final _selectedCharacter = Character.empty().obs;
   Character get selectedCharacter => _selectedCharacter.value;
 
-  final int pageSize = 10;
+  final int _pageSize = 10;
 
   String _searchText = '';
 
@@ -30,20 +31,14 @@ class HomeController extends GetxController {
 
   final _favorites = Favorites.empty().obs;
   List<String> get favorites => _favorites.value.favorites;
+  bool get favReqFailed => _favoriteRepository.lastFailed;
 
   @override
   void onInit() {
     super.onInit();
     pagingCharacters
         .addPageRequestListener((pageKey) => _fetchPageCharacters(pageKey));
-  }
-
-  Future<List<Character>> _readData() async {
-    final content = await StorageUtils.readcontent();
-    Iterable l = jsonDecode(content);
-    final list =
-        List<Character>.from(l.map((model) => Character.fromJson(model)));
-    return list;
+    _readDataFavorites().then((_) => _retryFavFailed());
   }
 
   Future<void> _fetchPageCharacters(int pageKey) async {
@@ -60,19 +55,22 @@ class HomeController extends GetxController {
 
         final newCharacters = newPage.results;
 
-        if (newCharacters.length < pageSize) {
+        if (newCharacters.length < _pageSize) {
           pagingCharacters.appendLastPage(newCharacters);
         } else {
           pagingCharacters.appendPage(newCharacters, pageKey + 1);
         }
 
         if (firstLoad) {
-          //reload file data on first reload
-          StorageUtils.writeContent(content: jsonEncode(newCharacters));
+          //save file data on first reload
+          _writeData(
+            StorageConstants.CHARACTERS_STORAGE,
+            jsonEncode(newCharacters),
+          );
         }
       } else if (firstLoad) {
         pagingCharacters
-          ..itemList = await _readData()
+          ..itemList = await _readDataCharacters()
           ..nextPageKey = 2;
         throw Exception('no internet connection');
       } else {
@@ -103,15 +101,105 @@ class HomeController extends GetxController {
     pagingCharacters.refresh();
   }
 
-  Future<void> addToFavorites(String fav) async {
-    favorites.add(fav);
-    await StorageUtils.writeContent(
-        content: jsonEncode(this), name: 'favorites');
+  Future<void> toggleFavorite(String favUrl) async {
+    if (favorites.contains(favUrl)) {
+      _removeFavorites(favUrl);
+    } else {
+      _addToFavorites(favUrl);
+    }
+    await _writeData(
+      StorageConstants.FAVORITES_STORAGE,
+      jsonEncode(_favorites.value),
+    );
+  }
+
+  void _addToFavorites(String favUrl) {
+    _favorites.value.favorites = [...favorites, favUrl];
+    _favorites.refresh();
+    _favorite(favUrl);
+  }
+
+  void _removeFavorites(String favUrl) {
+    var favs = _favorites.value.favorites;
+    favs.remove(favUrl);
+    _favorites.value.favorites = [...favs];
+    _favorites.refresh();
+  }
+
+  void _addFailed(String url) {
+    _favorites.value.failed = [..._favorites.value.failed, url];
+    _favorites.refresh();
+  }
+
+  void _removeFailed(String url) {
+    var faileds = _favorites.value.failed;
+    faileds.remove(url);
+    _favorites.value.failed = [...faileds];
+    _favorites.refresh();
+  }
+
+  Future<String> _favorite(String favUrl) async {
+    final favSplit = favUrl.split('/');
+
+    final favId = favSplit[favSplit.length - 2];
+    final response = await _favoriteRepository.favorite(id: favId);
+
+    if (_favoriteRepository.lastFailed) {
+      _addFailed(favUrl);
+    }
+
+    return response;
+  }
+
+  Future<void> _retryFavFailed() async {
+    final failed = _favorites.value.failed;
+    _favorites.value.failed = [];
+    _favorites.refresh();
+    for (int i = 0; i < failed.length; ++i) {
+      await _favorite(failed[i]);
+    }
+  }
+
+  Future<void> _readDataFavorites() async {
+    try {
+      final content = await StorageUtils.readcontent(
+          storage: StorageConstants.FAVORITES_STORAGE);
+      _favorites.value = Favorites.fromJson(jsonDecode(content));
+    } on Exception catch (e) {
+      debugPrint('[ERROR] :: error trying to read data :: $e');
+    }
+  }
+
+  Future<List<Character>> _readDataCharacters() async {
+    var list = <Character>[];
+    try {
+      final content = await StorageUtils.readcontent(
+          storage: StorageConstants.CHARACTERS_STORAGE);
+      Iterable l = jsonDecode(content);
+      list = List<Character>.from(l.map((model) => Character.fromJson(model)));
+    } on Exception catch (e) {
+      debugPrint('[ERROR] :: error trying to read data :: $e');
+    }
+    return list;
+  }
+
+  Future<void> _writeData(String storage, String content) async {
+    try {
+      await StorageUtils.writeContent(content: content, storage: storage);
+      debugPrint('[LOG] :: succesfully write content to $storage !!!');
+    } on Exception catch (e) {
+      debugPrint('[ERROR] :: error trying to write data :: $e');
+    }
   }
 
   @override
   void onClose() {
     pagingCharacters.dispose();
+    //saving favorites on dispose controller
+    _writeData(
+      StorageConstants.FAVORITES_STORAGE,
+      jsonEncode(favorites),
+    );
     super.onClose();
   }
 }

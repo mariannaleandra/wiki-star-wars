@@ -8,11 +8,15 @@ import 'package:wiki_star_wars/widgets/loading.dart';
 class CharactersLane extends StatelessWidget {
   final void Function(Character character, Color color) onCharacterPress;
   final PagingController<int, Character> pagingController;
+  final List<String> favorites;
+  final Function(String value) onToggleFavorite;
 
   const CharactersLane(
       {final Key? key,
       required this.onCharacterPress,
-      required this.pagingController})
+      required this.pagingController,
+      required this.favorites,
+      required this.onToggleFavorite})
       : super(key: key);
 
   //random background colors for card
@@ -56,6 +60,8 @@ class CharactersLane extends StatelessWidget {
             character: character,
             onPressed: () => onCharacterPress(character, bgColor),
             bgColor: bgColor,
+            isFavorite: favorites.contains(character.url),
+            onToggleFavorite: () => onToggleFavorite(character.url),
           );
         },
       ),

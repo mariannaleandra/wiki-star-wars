@@ -31,6 +31,7 @@ class FavoriteRepository extends ApiBase {
       }
     } on Exception catch (e) {
       debugPrint('[ERROR] :: error trying to add to favorite :: $e');
+      lastFailed = true;
     }
     return 'error';
   }
