@@ -91,6 +91,7 @@ class HomePage extends GetView<HomeController> {
         margin: const EdgeInsets.all(10.0),
         behavior: SnackBarBehavior.floating,
         shape: OutlineInputBorder(
+          borderSide: BorderSide.none,
           borderRadius: BorderRadius.circular(10),
         ),
         content: Text(
