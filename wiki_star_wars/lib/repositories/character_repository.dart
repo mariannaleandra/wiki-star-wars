@@ -40,8 +40,25 @@ class CharacterRepository extends ApiBase {
         return data['name'];
       }
     } on Exception catch (e) {
-      debugPrint('[ERROR] :: error trying to get planet :: $e');
+      debugPrint('[ERROR] :: error trying to get homeworld :: $e');
     }
     return '';
+  }
+
+  Future<List<String>> getSpeciesNames({required List<String> urls}) async {
+    var speciesNames = <String>[];
+    try {
+      for (int i = 0; i < urls.length; ++i) {
+        final response = await client.get(urls[i]);
+        final data = response.data;
+
+        if (response.statusCode == 200 && data != null) {
+          speciesNames.add(data['name']);
+        }
+      }
+    } on Exception catch (e) {
+      debugPrint('[ERROR] :: error trying to get species :: $e');
+    }
+    return speciesNames;
   }
 }

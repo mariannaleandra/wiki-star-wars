@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class LoadingWidget extends StatelessWidget {
   final double size;
-  const LoadingWidget({Key? key, this.size = 50}) : super(key: key);
+  final Color? color;
+  const LoadingWidget({Key? key, this.size = 50, this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class LoadingWidget extends StatelessWidget {
           backgroundColor: theme.backgroundColor,
           value: null,
           valueColor: AlwaysStoppedAnimation<Color>(
-            theme.primaryColor,
+            color ?? theme.primaryColor,
           ),
           strokeWidth: size / 10,
         ),

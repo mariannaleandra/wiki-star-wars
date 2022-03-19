@@ -58,6 +58,16 @@ class CharacterView extends StatelessWidget {
                     loadingMsg: loadingMsg,
                     color: bgColor,
                   ),
+                  Field(
+                    text: character.species.isEmpty
+                        ? 'No especies found :('
+                        : character.species.join(' - '),
+                    label: 'species',
+                    icon: Icons.local_florist,
+                    loadingData: loadingData,
+                    loadingMsg: loadingMsg,
+                    color: bgColor,
+                  ),
                   ..._buildFields(),
                 ],
               ),
@@ -70,12 +80,12 @@ class CharacterView extends StatelessWidget {
     final json = character.toJson();
     var list = <Widget>[];
     json.forEach((key, value) {
-      if (key != 'name' && key != 'homeworld') {
+      if (key != 'name' && key != 'homeworld' && key != 'species') {
         list.add(
           Field(
             label: key,
             text: value,
-            icon: Icons.person,
+            icon: Icons.face,
             color: bgColor,
           ),
         );

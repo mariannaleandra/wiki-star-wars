@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:wiki_star_wars/models/character.dart';
@@ -80,12 +79,16 @@ class HomeController extends GetxController {
 
   Future<void> onPressCharacter(Character character) async {
     _selectedCharacter.value = character;
-    _asyncCallMsg.value = 'Loading homeworld...';
+    _asyncCallMsg.value = 'Loading homeworld and species...';
     final homeworld =
         await _characterRepository.getHomeworldName(url: character.homeworld);
-    _selectedCharacter.value = selectedCharacter.copyWith(homeworld: homeworld);
+    final species =
+        await _characterRepository.getSpeciesNames(urls: character.species);
+    _selectedCharacter.value = selectedCharacter.copyWith(
+      homeworld: homeworld,
+      species: species,
+    );
     _asyncCallMsg.value = '';
-    //TODO load species
   }
 
   void onSearch(String value) {

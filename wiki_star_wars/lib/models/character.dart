@@ -1,4 +1,4 @@
-//todo: change to json_serializable/freezed
+//todo: change to freezed (toJson, fromJson, copyWith)
 class Character {
   String name = '';
   String height = '';
@@ -9,6 +9,7 @@ class Character {
   String eyeColor = '';
   String birthYear = '';
   String homeworld = '';
+  List<String> species = [];
 
   Character.empty();
 
@@ -22,6 +23,7 @@ class Character {
     required this.eyeColor,
     required this.birthYear,
     required this.homeworld,
+    required this.species,
   });
 
   Character.fromJson(final Map<String, dynamic> json) {
@@ -54,6 +56,9 @@ class Character {
         case 'homeworld':
           homeworld = value;
           break;
+        case 'species':
+          species = (value as List).map((e) => e.toString()).toList();
+          break;
         default:
           break;
       }
@@ -71,18 +76,21 @@ class Character {
       'eye_color': eyeColor,
       'birth_year': birthYear,
       'homeworld': homeworld,
+      'species': species.toString(),
     };
     return json;
   }
 
-  Character copyWith({String? homeworld}) => Character(
-      name: name,
-      height: height,
-      gender: gender,
-      mass: mass,
-      hairColor: hairColor,
-      skinColor: skinColor,
-      eyeColor: eyeColor,
-      birthYear: birthYear,
-      homeworld: homeworld ?? this.homeworld);
+  Character copyWith({String? homeworld, List<String>? species}) => Character(
+        name: name,
+        height: height,
+        gender: gender,
+        mass: mass,
+        hairColor: hairColor,
+        skinColor: skinColor,
+        eyeColor: eyeColor,
+        birthYear: birthYear,
+        homeworld: homeworld ?? this.homeworld,
+        species: species ?? this.species,
+      );
 }

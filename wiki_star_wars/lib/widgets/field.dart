@@ -39,6 +39,7 @@ class Field extends StatelessWidget {
         loadingData
             ? LoadingWidget(
                 size: theme.iconTheme.size!,
+                color: color,
               )
             : Icon(
                 icon,
