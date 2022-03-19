@@ -68,7 +68,14 @@ class CharacterView extends StatelessWidget {
                     loadingMsg: loadingMsg,
                     color: bgColor,
                   ),
-                  ..._buildFields(),
+                  ..._buildFields(
+                    exclude: [
+                      'name',
+                      'species',
+                      'homeworld',
+                      'url',
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -76,11 +83,11 @@ class CharacterView extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildFields() {
+  List<Widget> _buildFields({required List<String> exclude}) {
     final json = character.toJson();
     var list = <Widget>[];
     json.forEach((key, value) {
-      if (key != 'name' && key != 'homeworld' && key != 'species') {
+      if (!exclude.contains(key)) {
         list.add(
           Field(
             label: key,

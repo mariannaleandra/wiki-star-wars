@@ -10,6 +10,7 @@ class Character {
   String birthYear = '';
   String homeworld = '';
   List<String> species = [];
+  String url = '';
 
   Character.empty();
 
@@ -24,6 +25,7 @@ class Character {
     required this.birthYear,
     required this.homeworld,
     required this.species,
+    required this.url,
   });
 
   Character.fromJson(final Map<String, dynamic> json) {
@@ -59,6 +61,9 @@ class Character {
         case 'species':
           species = (value as List).map((e) => e.toString()).toList();
           break;
+        case 'url':
+          url = value;
+          break;
         default:
           break;
       }
@@ -77,6 +82,7 @@ class Character {
       'birth_year': birthYear,
       'homeworld': homeworld,
       'species': species.toString(),
+      'url': url,
     };
     return json;
   }
@@ -92,5 +98,6 @@ class Character {
         birthYear: birthYear,
         homeworld: homeworld ?? this.homeworld,
         species: species ?? this.species,
+        url: url,
       );
 }
