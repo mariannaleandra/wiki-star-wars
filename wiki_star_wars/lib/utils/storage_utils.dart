@@ -9,23 +9,24 @@ class StorageUtils {
     return directory.path;
   }
 
-  static Future<File> get _localFile async {
+  static Future<File> _localFile(String fileName) async {
     final path = await _localPath;
-    return File('$path/data.txt');
+    return File('$path/$fileName.txt');
   }
 
-  static Future<void> writeContent({String content = '[]'}) async {
+  static Future<void> writeContent(
+      {String content = '[]', String name = 'data'}) async {
     try {
-      final file = await _localFile;
+      final file = await _localFile(name);
       await file.writeAsString(content);
     } on Exception catch (e) {
       debugPrint('[ERROR] :: error trying to WRITE content in file :: $e');
     }
   }
 
-  static Future<String> readcontent() async {
+  static Future<String> readcontent({String name = 'data'}) async {
     try {
-      final file = await _localFile;
+      final file = await _localFile(name);
       String content = await file.readAsString();
       return content;
     } on Exception catch (e) {

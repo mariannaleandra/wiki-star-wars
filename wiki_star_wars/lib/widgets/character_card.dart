@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wiki_star_wars/models/character.dart';
+import 'package:wiki_star_wars/widgets/favorite_button.dart';
 import 'package:wiki_star_wars/widgets/profile_avatar.dart';
 
 class CharacterCard extends StatelessWidget {
@@ -13,6 +14,7 @@ class CharacterCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+    var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: onPressed,
       child: Container(
@@ -31,18 +33,29 @@ class CharacterCard extends StatelessWidget {
             )
           ],
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Wrap(
+          direction: Axis.horizontal,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          alignment: WrapAlignment.center,
+          runAlignment: WrapAlignment.center,
+          clipBehavior: Clip.antiAlias,
+          runSpacing: 10.0,
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [FavoriteButton(isSelected: false, onSelect: () {})],
+            ),
             ProfileAvatar(
               name: character.name,
               bgColor: bgColor,
             ),
-            const SizedBox(height: 10),
-            _Text(label: 'Height', description: character.height),
-            _Text(label: 'Mass', description: character.mass),
-            _Text(label: 'Gender', description: character.gender),
+            Column(
+              children: [
+                _Text(label: 'Height', description: character.height),
+                _Text(label: 'Mass', description: character.mass),
+                _Text(label: 'Gender', description: character.gender),
+              ],
+            )
           ],
         ),
       ),
