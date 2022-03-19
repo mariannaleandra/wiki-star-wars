@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wiki_star_wars/models/character.dart';
+import 'package:wiki_star_wars/widgets/profile_avatar.dart';
 
 class CharacterCard extends StatelessWidget {
   final Character character;
@@ -34,27 +35,9 @@ class CharacterCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(40),
-                border: Border.all(color: theme.backgroundColor, width: 2.0),
-              ),
-              child: CircleAvatar(
-                backgroundColor: bgColor,
-                backgroundImage: const AssetImage('assets/images/helmet.png'),
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              character.name,
-              style: theme.textTheme.headline2?.apply(
-                color: theme.backgroundColor,
-                fontWeightDelta: 7,
-              ),
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
+            ProfileAvatar(
+              name: character.name,
+              bgColor: bgColor,
             ),
             const SizedBox(height: 10),
             _Text(label: 'Height', description: character.height),

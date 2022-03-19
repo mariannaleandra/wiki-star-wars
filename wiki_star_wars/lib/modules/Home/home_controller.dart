@@ -18,6 +18,10 @@ class HomeController extends GetxController {
 
   String _searchText = '';
 
+  final _asyncCallMsg = ''.obs;
+  String get loadingMsg => _asyncCallMsg.value;
+  bool get isLoading => _asyncCallMsg.value.isNotEmpty;
+
   @override
   void onInit() {
     super.onInit();
@@ -34,6 +38,7 @@ class HomeController extends GetxController {
   }
 
   Future<void> _fetchPageCharacters(int pageKey) async {
+    // _asyncCallMsg.value = 'Fetching new characters...';
     bool firstLoad = pageKey == 1;
     try {
       final hasConnection = await InternetUtils.checkConnection();
@@ -67,11 +72,14 @@ class HomeController extends GetxController {
     } on Exception catch (error) {
       pagingCharacters.error = error;
     }
+    // _asyncCallMsg.value = '';
   }
 
   void onPressCharacter(Character character) {
     //TODO
     debugPrint('[DEBUG] :: on pressed ${character.name}');
+    //load planet
+    //load specie
   }
 
   void onSearch(String value) {

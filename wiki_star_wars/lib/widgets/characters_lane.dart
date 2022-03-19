@@ -6,7 +6,7 @@ import 'package:wiki_star_wars/widgets/character_card.dart';
 import 'package:wiki_star_wars/widgets/loading.dart';
 
 class CharactersLane extends StatelessWidget {
-  final void Function(Character character) onCharacterPress;
+  final void Function(Character character, Color color) onCharacterPress;
   final PagingController<int, Character> pagingController;
 
   const CharactersLane(
@@ -50,10 +50,11 @@ class CharactersLane extends StatelessWidget {
           ),
         ),
         itemBuilder: (final context, final character, final index) {
+          final bgColor = _bgColor(index + 1, theme);
           return CharacterCard(
             character: character,
-            onPressed: () => onCharacterPress(character),
-            bgColor: _bgColor(index + 1, theme),
+            onPressed: () => onCharacterPress(character, bgColor),
+            bgColor: bgColor,
           );
         },
       ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wiki_star_wars/models/character.dart';
 import 'package:wiki_star_wars/modules/Home/home_controller.dart';
+import 'package:wiki_star_wars/widgets/character_view.dart';
 import 'package:wiki_star_wars/widgets/characters_lane.dart';
 import 'package:wiki_star_wars/widgets/search_input.dart';
 
@@ -34,13 +36,35 @@ class HomePage extends GetView<HomeController> {
             ),
             Expanded(
               child: CharactersLane(
-                onCharacterPress: (character) =>
-                    controller.onPressCharacter(character),
+                onCharacterPress: (character, color) =>
+                    _openCharacter(context, character, theme, color),
                 pagingController: controller.pagingCharacters,
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _openCharacter(BuildContext context, Character character,
+      ThemeData theme, Color bgColor) {
+    showModalBottomSheet(
+      context: context,
+      enableDrag: true,
+      isScrollControlled: true,
+      shape: const OutlineInputBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30.0),
+          topRight: Radius.circular(30.0),
+        ),
+      ),
+      backgroundColor: bgColor,
+      builder: (context) => CharacterView(
+        character: character,
+        loadingInfo: controller.isLoading,
+        loadingMsg: controller.loadingMsg,
+        bgColor: bgColor,
       ),
     );
   }
