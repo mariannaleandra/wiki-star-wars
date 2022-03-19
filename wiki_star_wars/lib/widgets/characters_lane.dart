@@ -30,12 +30,13 @@ class CharactersLane extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     var theme = Theme.of(context);
+    var size = MediaQuery.of(context).size;
     return PagedGridView<int, Character>(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 10.0,
         crossAxisSpacing: 10.0,
-        childAspectRatio: 0.7,
+        childAspectRatio: size.width / size.height / 0.8,
       ),
       pagingController: pagingController,
       builderDelegate: PagedChildBuilderDelegate<Character>(

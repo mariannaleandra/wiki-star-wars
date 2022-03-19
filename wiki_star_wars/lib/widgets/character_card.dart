@@ -38,8 +38,8 @@ class CharacterCard extends StatelessWidget {
           crossAxisAlignment: WrapCrossAlignment.center,
           alignment: WrapAlignment.center,
           runAlignment: WrapAlignment.center,
-          clipBehavior: Clip.antiAlias,
-          runSpacing: 10.0,
+          clipBehavior: Clip.hardEdge,
+          runSpacing: 20.0,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
