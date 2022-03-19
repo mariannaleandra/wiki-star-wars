@@ -1,15 +1,19 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:wiki_star_wars/models/character.dart';
+import 'package:wiki_star_wars/models/favorites.dart';
 import 'package:wiki_star_wars/repositories/character_repository.dart';
+import 'package:wiki_star_wars/repositories/favorites_repository.dart';
 import 'package:wiki_star_wars/utils/internet_utils.dart';
 import 'package:wiki_star_wars/utils/storage_utils.dart';
 
 class HomeController extends GetxController {
   final CharacterRepository _characterRepository;
-  HomeController(this._characterRepository);
+  final FavoriteRepository _favoriteRepository;
+  HomeController(this._characterRepository, this._favoriteRepository);
 
   final pagingCharacters = PagingController<int, Character>(firstPageKey: 1);
 
@@ -23,6 +27,9 @@ class HomeController extends GetxController {
   final _asyncCallMsg = ''.obs;
   String get loadingMsg => _asyncCallMsg.value;
   bool get isLoading => _asyncCallMsg.value.isNotEmpty;
+
+  final _favorites = Favorites.empty().obs;
+  List<String> get favorites => _favorites.value.favorites;
 
   @override
   void onInit() {
@@ -94,6 +101,12 @@ class HomeController extends GetxController {
   void onSearch(String value) {
     _searchText = value;
     pagingCharacters.refresh();
+  }
+
+  Future<void> addToFavorites(String fav) async {
+    favorites.add(fav);
+    await StorageUtils.writeContent(
+        content: jsonEncode(this), name: 'favorites');
   }
 
   @override

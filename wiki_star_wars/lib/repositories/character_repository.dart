@@ -16,7 +16,8 @@ class CharacterRepository extends ApiBase {
     }
 
     try {
-      final response = await client.get('${ApiConstants.BASE_URL}/people',
+      final response = await client.get(
+          '${ApiConstants.BASE_URL_CHARACTER}/people',
           queryParameters: params);
       final data = response.data;
 
