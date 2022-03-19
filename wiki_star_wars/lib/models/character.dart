@@ -1,9 +1,14 @@
+//todo: change to json_serializable/freezed
 class Character {
-  String url = '';
   String name = '';
   String height = '';
   String gender = '';
   String mass = '';
+  String hairColor = '';
+  String skinColor = '';
+  String eyeColor = '';
+  String birthYear = '';
+  String homeworld = '';
 
   Character.empty();
 
@@ -13,8 +18,8 @@ class Character {
         case 'name':
           name = value;
           break;
-        case 'url':
-          url = value;
+        case 'hair_color':
+          hairColor = value;
           break;
         case 'height':
           height = value;
@@ -24,6 +29,18 @@ class Character {
           break;
         case 'mass':
           mass = value;
+          break;
+        case 'skin_color':
+          skinColor = value;
+          break;
+        case 'eye_color':
+          eyeColor = value;
+          break;
+        case 'birth_year':
+          birthYear = value;
+          break;
+        case 'homeworld':
+          homeworld = value;
           break;
         default:
           break;
@@ -35,9 +52,13 @@ class Character {
     var json = {
       'name': name,
       'height': height,
-      'url': url,
       'gender': gender,
-      'mass': mass
+      'mass': mass,
+      'hair_color': hairColor,
+      'skin_color': skinColor,
+      'eye_color': eyeColor,
+      'birth_year': birthYear,
+      'homeworld': homeworld,
     };
     return json;
   }

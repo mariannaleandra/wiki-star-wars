@@ -20,34 +20,41 @@ class CharacterView extends StatelessWidget {
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     var size = MediaQuery.of(context).size;
-    return SizedBox(
-      height: size.height * 0.7,
-      child: ListView(
-        padding: const EdgeInsets.all(
-          10.0,
-        ),
-        scrollDirection: Axis.vertical,
-        children: [
-          GestureDetector(
-            onVerticalDragDown: (_) => Navigator.pop(context),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 5,
-              ),
-              child: Icon(
-                Icons.keyboard_arrow_down,
-                color: theme.backgroundColor,
-                size: theme.iconTheme.size,
+    return Container(
+      height: size.height * 0.8,
+      padding: const EdgeInsets.all(
+        10.0,
+      ),
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onVerticalDragDown: (_) => Navigator.pop(context),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 5,
+                ),
+                child: Icon(
+                  Icons.keyboard_arrow_down,
+                  color: theme.backgroundColor,
+                  size: theme.iconTheme.size,
+                ),
               ),
             ),
-          ),
-          ProfileAvatar(
-            name: character.name,
-            bgColor: bgColor ?? theme.primaryColor,
-          ),
-          ..._buildFields(),
-        ],
-      ),
+            ProfileAvatar(
+              name: character.name,
+              bgColor: bgColor ?? theme.primaryColor,
+            ),
+            Expanded(
+              child: ListView(
+                scrollDirection: Axis.vertical,
+                children: [
+                  ..._buildFields(),
+                ],
+              ),
+            ),
+          ]),
     );
   }
 
@@ -55,7 +62,7 @@ class CharacterView extends StatelessWidget {
     final json = character.toJson();
     var list = <Widget>[];
     json.forEach((key, value) {
-      if (key != 'name') {
+      if (key != 'name' && key != 'homeworld') {
         list.add(
           Field(
             label: key,
