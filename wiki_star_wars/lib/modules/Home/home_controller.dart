@@ -46,7 +46,7 @@ class HomeController extends GetxController {
 
   Future<void> _fetchPageCharacters(int pageKey) async {
     // _asyncCallMsg.value = 'Fetching new characters...';
-    bool firstLoad = pageKey == 1;
+    bool firstLoad = pageKey == 1 && _searchText.isEmpty && !onlyFavorites;
     try {
       final hasConnection = await InternetUtils.checkConnection();
 
