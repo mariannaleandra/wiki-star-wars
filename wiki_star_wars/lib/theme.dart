@@ -14,6 +14,14 @@ class MainTheme {
       color: _ColorsTheme.darkYellow,
       size: 25.0,
     ),
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: _ColorsTheme.dark,
+      contentTextStyle: _FontTheme.theme.headline2?.apply(
+        color: _ColorsTheme.light,
+        fontWeightDelta: 7,
+      ),
+      actionTextColor: _ColorsTheme.darkYellow,
+    ),
     textTheme: _FontTheme.theme,
     appBarTheme: _AppBarTheme.theme,
     bottomAppBarTheme: const BottomAppBarTheme(

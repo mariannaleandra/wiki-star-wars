@@ -4,6 +4,7 @@ import 'package:wiki_star_wars/models/character.dart';
 import 'package:wiki_star_wars/modules/Home/home_controller.dart';
 import 'package:wiki_star_wars/widgets/character_view.dart';
 import 'package:wiki_star_wars/widgets/characters_lane.dart';
+import 'package:wiki_star_wars/widgets/favorite_button.dart';
 import 'package:wiki_star_wars/widgets/search_input.dart';
 
 class HomePage extends GetView<HomeController> {
@@ -39,15 +40,13 @@ class HomePage extends GetView<HomeController> {
                 () => CharactersLane(
                   onCharacterPress: (character, color) {
                     controller.onPressCharacter(character);
-                    _openCharacter(
-                        context, controller.selectedCharacter, theme, color);
+                    _openCharacter(theme, controller.selectedCharacter, color);
                   },
                   pagingController: controller.pagingCharacters,
                   favorites: controller.favorites,
                   onToggleFavorite: (character) => controller.toggleFavorite(
                     character,
-                    addFavorite: (value) =>
-                        _showSnackbar(value, context, theme),
+                    addFavorite: (value) => _showSnackbar(value, theme),
                   ),
                 ),
               ),
@@ -58,10 +57,24 @@ class HomePage extends GetView<HomeController> {
     );
   }
 
-  void _openCharacter(BuildContext context, Character character,
-      ThemeData theme, Color bgColor) {
-    showModalBottomSheet(
-      context: context,
+  void _openCharacter(ThemeData theme, Character character, Color bgColor) {
+    Get.bottomSheet(
+      Obx(
+        () => CharacterView(
+          character: controller.selectedCharacter,
+          loadingData: controller.isLoading,
+          loadingMsg: controller.loadingMsg,
+          bgColor: bgColor,
+          isFavorite: controller.favorites.contains(character.url),
+          onToggleFavorite: () => controller.toggleFavorite(
+            character,
+            addFavorite: (value) => _showSnackbar(
+              value,
+              theme,
+            ),
+          ),
+        ),
+      ),
       enableDrag: true,
       isScrollControlled: true,
       shape: const OutlineInputBorder(
@@ -71,39 +84,32 @@ class HomePage extends GetView<HomeController> {
         ),
       ),
       backgroundColor: bgColor,
-      builder: (context) => Obx(
-        () => CharacterView(
-          character: controller.selectedCharacter,
-          loadingData: controller.isLoading,
-          loadingMsg: controller.loadingMsg,
-          bgColor: bgColor,
-        ),
-      ),
     );
   }
 
-  void _showSnackbar(String value, BuildContext context, ThemeData theme) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        backgroundColor: theme.iconTheme.color,
-        duration: const Duration(seconds: 3),
-        padding: const EdgeInsets.all(10.0),
-        margin: const EdgeInsets.all(10.0),
-        behavior: SnackBarBehavior.floating,
-        shape: OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        content: Text(
-          value,
-          style: theme.textTheme.headline2?.apply(
-            color: theme.backgroundColor,
-            fontWeightDelta: 7,
-          ),
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-        ),
+  void _showSnackbar(String value, ThemeData theme) {
+    Get.snackbar(
+      '',
+      '',
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: theme.snackBarTheme.backgroundColor,
+      duration: const Duration(seconds: 3),
+      padding: const EdgeInsets.all(10.0),
+      margin: const EdgeInsets.all(10.0),
+      borderRadius: 10.0,
+      titleText: const SizedBox.shrink(),
+      messageText: Text(
+        value,
+        style: theme.snackBarTheme.contentTextStyle,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
       ),
+      icon: Icon(
+        Icons.star,
+        size: theme.iconTheme.size,
+        color: theme.iconTheme.color,
+      ),
+      shouldIconPulse: true,
     );
   }
 }

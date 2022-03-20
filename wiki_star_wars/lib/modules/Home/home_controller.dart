@@ -199,11 +199,6 @@ class HomeController extends GetxController {
   @override
   void onClose() {
     pagingCharacters.dispose();
-    //saving favorites on dispose controller
-    _writeData(
-      StorageConstants.FAVORITES_STORAGE,
-      jsonEncode(favorites),
-    );
     super.onClose();
   }
 }

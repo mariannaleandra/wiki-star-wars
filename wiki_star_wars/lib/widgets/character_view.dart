@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wiki_star_wars/models/character.dart';
+import 'package:wiki_star_wars/widgets/favorite_button.dart';
 import 'package:wiki_star_wars/widgets/field.dart';
 import 'package:wiki_star_wars/widgets/profile_avatar.dart';
 
@@ -8,13 +9,17 @@ class CharacterView extends StatelessWidget {
   final bool loadingData;
   final String loadingMsg;
   final Color? bgColor;
-  const CharacterView(
-      {Key? key,
-      required this.character,
-      required this.loadingData,
-      this.loadingMsg = '',
-      this.bgColor})
-      : super(key: key);
+  final bool isFavorite;
+  final VoidCallback onToggleFavorite;
+  const CharacterView({
+    Key? key,
+    required this.character,
+    required this.loadingData,
+    this.loadingMsg = '',
+    this.bgColor,
+    required this.isFavorite,
+    required this.onToggleFavorite,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +50,13 @@ class CharacterView extends StatelessWidget {
             ProfileAvatar(
               name: character.name,
               bgColor: bgColor ?? theme.primaryColor,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: FavoriteButton(
+                isSelected: isFavorite,
+                onSelect: onToggleFavorite,
+              ),
             ),
             Expanded(
               child: ListView(
