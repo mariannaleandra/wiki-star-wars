@@ -31,6 +31,7 @@ class FavoriteRepository extends ApiBase {
       lastFailed = true;
       return e.response?.data['error_message'];
     } on Exception catch (e) {
+      lastFailed = true;
       debugPrint('[ERROR] :: unexpected exception :: $e');
     }
     return 'error';

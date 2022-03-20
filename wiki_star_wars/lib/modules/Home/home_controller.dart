@@ -114,7 +114,7 @@ class HomeController extends GetxController {
     if (favorites.contains(favUrl)) {
       _removeFavorites(favUrl);
     } else {
-      _addToFavorites(
+      await _addToFavorites(
         favUrl,
         addFavorite: addFavorite,
       );
@@ -125,10 +125,12 @@ class HomeController extends GetxController {
     );
   }
 
-  void _addToFavorites(String favUrl, {Function(String value)? addFavorite}) {
+  Future<void> _addToFavorites(String favUrl,
+      {Function(String value)? addFavorite}) async {
     _favorites.value.favorites = [...favorites, favUrl];
     _favorites.refresh();
-    _favorite(favUrl).then((value) => addFavorite?.call(value));
+    final msg = await _favorite(favUrl);
+    addFavorite?.call(msg);
   }
 
   void _removeFavorites(String favUrl) {
@@ -170,6 +172,10 @@ class HomeController extends GetxController {
     for (int i = 0; i < failed.length; ++i) {
       await _favorite(failed[i]);
     }
+    await _writeData(
+      StorageConstants.FAVORITES_STORAGE,
+      jsonEncode(_favorites.value),
+    );
   }
 
   Future<void> _readDataFavorites() async {
