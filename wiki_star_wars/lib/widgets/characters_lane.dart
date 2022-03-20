@@ -11,13 +11,13 @@ class CharactersLane extends StatelessWidget {
   final List<String> favorites;
   final Function(Character character) onToggleFavorite;
 
-  const CharactersLane(
-      {final Key? key,
-      required this.onCharacterPress,
-      required this.pagingController,
-      required this.favorites,
-      required this.onToggleFavorite})
-      : super(key: key);
+  const CharactersLane({
+    final Key? key,
+    required this.onCharacterPress,
+    required this.pagingController,
+    required this.favorites,
+    required this.onToggleFavorite,
+  }) : super(key: key);
 
   //random background colors for card
   Color _bgColor(int index, ThemeData theme) {

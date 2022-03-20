@@ -28,12 +28,33 @@ class HomePage extends GetView<HomeController> {
         height: size.height,
         margin: const EdgeInsets.all(10),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SearchInput(
               onSearch: controller.onSearch,
             ),
-            const SizedBox(
-              height: 10,
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Obx(
+                    () => FavoriteButton(
+                      isSelected: controller.onlyFavorites,
+                      onSelect: controller.filterFavorites,
+                    ),
+                  ),
+                  Text(
+                    'Filter by favorites',
+                    style: theme.textTheme.headline2?.apply(
+                      color: theme.iconTheme.color,
+                      fontWeightDelta: 2,
+                    ),
+                  ),
+                ],
+              ),
             ),
             Expanded(
               child: Obx(

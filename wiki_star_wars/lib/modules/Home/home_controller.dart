@@ -33,6 +33,9 @@ class HomeController extends GetxController {
   List<String> get favorites => _favorites.value.favorites;
   bool get favReqFailed => _favoriteRepository.lastFailed;
 
+  final _onlyFavorites = false.obs;
+  bool get onlyFavorites => _onlyFavorites.value;
+
   @override
   void onInit() {
     super.onInit();
@@ -53,7 +56,11 @@ class HomeController extends GetxController {
           search: _searchText,
         );
 
-        final newCharacters = newPage.results;
+        final newCharacters = onlyFavorites
+            ? newPage.results
+                .where((element) => favorites.contains(element.url))
+                .toList()
+            : newPage.results;
 
         if (newCharacters.length < _pageSize) {
           pagingCharacters.appendLastPage(newCharacters);
@@ -194,6 +201,11 @@ class HomeController extends GetxController {
     } on Exception catch (e) {
       debugPrint('[ERROR] :: error trying to write data :: $e');
     }
+  }
+
+  void filterFavorites() {
+    _onlyFavorites.value = !onlyFavorites;
+    pagingCharacters.refresh();
   }
 
   @override
