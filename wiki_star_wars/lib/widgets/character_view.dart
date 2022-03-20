@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wiki_star_wars/models/character.dart';
 import 'package:wiki_star_wars/widgets/favorite_button.dart';
 import 'package:wiki_star_wars/widgets/field.dart';
@@ -35,7 +36,7 @@ class CharacterView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GestureDetector(
-              onVerticalDragDown: (_) => Navigator.pop(context),
+              onVerticalDragDown: (_) => Get.back(),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 5,
